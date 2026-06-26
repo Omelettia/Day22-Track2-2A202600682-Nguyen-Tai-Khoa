@@ -10,6 +10,7 @@ Cách dùng:
     llm_gemini = get_llm("gemini")    # chỉ định provider cụ thể
 """
 import sys
+import os
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -51,6 +52,8 @@ def get_llm(provider: str = None, temperature: float = 0.0):
             model=config.GEMINI_MODEL,
             google_api_key=config.GOOGLE_API_KEY,
             temperature=temperature,
+            timeout=int(os.getenv("GEMINI_TIMEOUT", "180")),
+            max_retries=int(os.getenv("GEMINI_MAX_RETRIES", "6")),
         )
 
     elif provider == "anthropic":
